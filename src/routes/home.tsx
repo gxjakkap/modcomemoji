@@ -6,10 +6,16 @@ import { emojiSet } from '../const'
 
 export default function Home() {
   
-  const [emoji, setEmoji] = useState('-')
+  const [emojiArr, setEmojiArr] = useState<string[]>([])
 
   useEffect(() => {
-    setEmoji(emojiSet[Math.floor(Math.random() * emojiSet.length)])
+    const newEmojiArr: string[] = []
+    for (let i = 0; i < 5; i++){
+      const newEmoji = emojiSet[Math.floor(Math.random() * emojiSet.length)]
+      if (newEmojiArr.includes(newEmoji)) i--
+      else newEmojiArr.push(newEmoji)
+    }
+    setEmojiArr(newEmojiArr)
   }, [])
 
   return (
@@ -18,7 +24,14 @@ export default function Home() {
         <img src={modcomLogo} alt="ModCom Express Logo" className="w-[150px] sm:w-[100px] xl:w-[200px]" />
       </div>
       <div className="flex-1 flex items-center justify-center">
-        <div className="text-[8rem] sm:text-[10rem] select-none">{emoji}</div>
+        {/* <div className="text-[8rem] sm:text-[10rem] select-none">{emojiArr}</div> */}
+        <div className="flex flex-col flex-wrap justify-center gap-x-12 md:flex-row">
+          {emojiArr.map((emoji, index) => (
+            <div key={index} className="text-[8rem] select-none">
+              {emoji}
+            </div>
+          ))}
+        </div>
       </div>
     </main>
   )
